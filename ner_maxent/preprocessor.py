@@ -1,0 +1,62 @@
+#!/usr/bin/python
+# -*- coding: iso-8859-15 -*-
+
+from pymongo import MongoClient
+from nltk.tokenize import sent_tokenize
+from nltk import word_tokenize
+import maxent as m
+import dbmodel as d
+import preprocessing as p
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# Bedakan data yang digunakan untuk training iis dan proses ner, karena prosesnya juga berbeda
+# misal pada training IIS Yogyakarta/LOC masih tetap di pertahankan, 
+# akan tetapi pada NER menjadi Yogyakarta LOC (atau dihilangkan simbol /)
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+#create object class independent function
+preprocessing = p.Preprocessing()
+
+#create object class database model
+dbmodel = d.DBModel()
+
+def execute(month, year, data_preprocessing_for):
+	# --------------------------------------------------------------------------
+	# PREPROCESSING
+	# --------------------------------------------------------------------------
+
+	# define month
+	# month = "apr_ori"
+
+	# define month clean
+	month_data_tweet = month
+
+	# define month ner
+	month_data_clean = "%s_clean"%month
+
+	for date in range(1,32):
+		if len(str(date)) == 1 :
+			date = "0%s"%(str(date))
+		cursor_get_data_tweet_without_label = dbmodel.get_data_without_label(month_data_tweet,str(date))
+
+		for index, document in enumerate(cursor_get_data_tweet_without_label):
+			datas = document["data"]
+			for data in datas:
+				token_sentences = sent_tokenize(data["text_tweet"])
+				for sentence in token_sentences:
+					# bedakan process anotasi dengan pelatihan menggunakan kondisi "ner"/"train"
+					# param preprocessing.process(kalimat, kondisi)
+					sentence_clean = preprocessing.process(sentence, data_preprocessing_for)
+					# print sentence_clean
+
+					sentence_to_db = {}
+					sentence_to_db["id"] = data["id"]
+					sentence_to_db["url"] = data["url"]
+					sentence_to_db["username"] = data["username"]
+					sentence_to_db["text_tweet"] = sentence_clean
+					sentence_to_db["time"] = data["time"]
+
+					insert_sentence_clean = dbmodel.insert_sentence_clean(month_data_clean, str(date), sentence_to_db)
+					print insert_sentence_clean
+	return True
+
+

@@ -1,0 +1,1 @@
+template_feature_set = {"ORG":[1,2,3],"LOC":[4,2,3],"NUM":[5],"CON":[6,7]}

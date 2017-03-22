@@ -1,0 +1,37 @@
+Masuk direktori Database, Kemudian jalankan beberapa perintah ini.
+
+1. Syntax Import Database :
+---------------------------------------------------------------------------
+import export_import as ep
+ep.import_data('apr_scraping','scraping/apr_scraping')
+ep.import_data('mar_scraping','scraping/mar_scraping')
+ep.import_data('apr_clean','ner/apr_clean')
+ep.import_data('mar_clean','ner/mar_clean')
+ep.import_data('apr_label','label/apr_label')
+ep.import_data('mar_label','label/mar_label')
+ep.import_data('apr_ner','ner/apr_ner')
+ep.import_data('mar_ner','ner/mar_ner')
+exit()
+
+mongoimport --db bigcities --collection cities --file location/cities.csv
+mongoimport --db indo_db --collection location --file location/indo_db.csv
+
+mongoimport --db 2015_ner --collection mar --file 2015_ner/mar.csv
+mongoimport --db 2015_ner --collection apr --file 2015_ner/apr.csv
+
+mongoimport --db 2015_fwc --collection mar --file 2015_fwc/mar.csv
+mongoimport --db 2015_fwc --collection apr --file 2015_fwc/apr.csv
+===========================================================================
+
+
+2. Create Index, masuk mongodb create Index :
+---------------------------------------------------------------------------
+db.getCollection('location').createIndex(
+   {
+     kabupaten: "text",
+     kecamatan: "text",
+     desa : "text"
+   }
+ )}
+===========================================================================
+

@@ -1,0 +1,4 @@
+cities.csv adalah database lokasi dengan koordinat lintang dan bujur
+indo_db adalah database keseluruhan total lokasi kota besar di indonesia
+
+* semua harus di
