@@ -10,7 +10,7 @@ from scrapy.exceptions import DropItem
 from scrapy import log
 
 class TwitterscrapingPipeline(object):	
-	collection_name = 'dbd'
+	collection_name = 'raw'
 	def __init__(self, mongo_uri, mongo_db):
 		self.mongo_uri = mongo_uri
 		self.mongo_db = mongo_db
@@ -19,7 +19,7 @@ class TwitterscrapingPipeline(object):
 	def from_crawler(cls, crawler):
 		return cls(
 			mongo_uri=crawler.settings.get('MONGO_URI'),
-			mongo_db=crawler.settings.get('MONGO_DATABASE', 'twitter_mobile')
+			mongo_db=crawler.settings.get('MONGO_DATABASE', 'feb_2015')
 		)
 	def open_spider(self, spider):
 		self.client = pymongo.MongoClient(self.mongo_uri)
@@ -35,6 +35,6 @@ class TwitterscrapingPipeline(object):
 			raise DropItem("Missing {0}!".format(item))
 		if valid:
 			self.db[self.collection_name].insert(dict(item))
-			log.msg("data added to twitter_backup mongo database!",
+			log.msg("data added to jan mongo database!",
                     level=log.DEBUG, spider=spider)
 		return item

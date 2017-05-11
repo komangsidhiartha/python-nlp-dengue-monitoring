@@ -8,9 +8,13 @@
 #     http://doc.scrapy.org/en/latest/topics/settings.html
 #     http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 #     http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
-BOT_NAME = 'twitterscraping-mobile'
-SPIDER_MODULES = ['twitterscraping-mobile.spiders']
-NEWSPIDER_MODULE = 'twitterscraping-mobile.spiders'
+BOT_NAME = 'twitterscraping'
+SPIDER_MODULES = ['twitterscraping.spiders']
+NEWSPIDER_MODULE = 'twitterscraping.spiders'
+
+# LOG_STDOUT = True
+# LOG_FILE = 'scrapy_output.txt'
+# LOG_LEVEL = 'CRITICAL'
 
 DOWNLOAD_DELAY = 5
 

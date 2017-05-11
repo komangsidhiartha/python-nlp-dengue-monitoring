@@ -1,20 +1,20 @@
 from scrapy.spiders import Spider
 from scrapy.http.request import Request
 from scrapy.selector import Selector
-from twitterscraping-mobile.items import TwitterscrapingItem
+from twitterscraping.items import TwitterscrapingItem
 from w3lib.html import remove_tags
 import re
 
 class TwitterSpider(Spider):
 	index = 0
-	start = '2015-01-01'
-	end = '2015-12-31'
+	start = '2015-02-01'
+	end = '2015-02-04s'
 	name = "twitter_mobile"
 	allowed_domains = ["mobile.twitter.com"]
 
 	start_urls = [
-		#"https://mobile.twitter.com/search?f=tweets&vertical=default&q=%22demam%20berdarah%22%20OR%20dbd%20OR%20dhf%20OR%20%22dengue%20fever%22%20OR%20%22dengue%20hemorrhagic%22%20OR%20%22sakit%20db%22%20lang%3Aid%20since%3A"+start+"%20until%3A"+end+"&src=typd"
-		"https://mobile.twitter.com/search?f=tweets&vertical=default&q=%22demam%20berdarah%22%20OR%20dbd%20OR%20dhf%20OR%20%22dengue%20fever%22%20OR%20%22dengue%20hemorrhagic%22%20OR%20%22sakit%20db%22%20lang%3Aid"
+		"https://mobile.twitter.com/search?f=tweets&vertical=default&q=%22demam%20berdarah%22%20OR%20dbd%20OR%20dhf%20OR%20%22dengue%20fever%22%20OR%20%22dengue%20hemorrhagic%22%20OR%20%22sakit%20db%22%20lang%3Aid%20since%3A"+start+"%20until%3A"+end+"&src=typd"
+		#"https://mobile.twitter.com/search?f=tweets&vertical=default&q=%22demam%20berdarah%22%20OR%20dbd%20OR%20dhf%20OR%20%22dengue%20fever%22%20OR%20%22dengue%20hemorrhagic%22%20OR%20%22sakit%20db%22%20lang%3Aid"
     ]
 
 	def parse(self, response):
