@@ -19,7 +19,7 @@ preprocessing = p.Preprocessing()
 #create object class database model
 dbmodel = d.DBModel()
 
-def execute(month, year, data_preprocessing_for):
+def execute(month, data_preprocessing_for):
 	# --------------------------------------------------------------------------
 	# PREPROCESSING
 	# --------------------------------------------------------------------------
@@ -34,11 +34,16 @@ def execute(month, year, data_preprocessing_for):
 	month_data_clean = "%s_clean"%month
 
 	for date in range(1,32):
-		if len(str(date)) == 1 :
-			date = "0%s"%(str(date))
-		cursor_get_data_tweet_without_label = dbmodel.get_data_without_label(month_data_tweet,str(date))
+		str_date = str(date)
+		if len(str_date) == 1 :
+			str_date = '0' + str_date
+
+		cursor_get_data_tweet_without_label = dbmodel.get_data_without_label(month_data_tweet,str_date)
+
+		print "cursor", cursor_get_data_tweet_without_label
 
 		for index, document in enumerate(cursor_get_data_tweet_without_label):
+			print "cursor at", index, ", content", document
 			datas = document["data"]
 			for data in datas:
 				token_sentences = sent_tokenize(data["text_tweet"])
@@ -55,8 +60,9 @@ def execute(month, year, data_preprocessing_for):
 					sentence_to_db["text_tweet"] = sentence_clean
 					sentence_to_db["time"] = data["time"]
 
-					insert_sentence_clean = dbmodel.insert_sentence_clean(month_data_clean, str(date), sentence_to_db)
+					insert_sentence_clean = dbmodel.insert_sentence_clean(month_data_clean, str_date, sentence_to_db)
 					print insert_sentence_clean
 	return True
+
 
 

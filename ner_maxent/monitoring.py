@@ -7,7 +7,7 @@ import ner_pasing_to_month as npm
 import fwc_data_preparation as fwc
 
 def execute(month, year):
-	preprocessor_process = preprocessor.execute(month, year, "ner")
+	preprocessor_process = preprocessor.execute(month, "ner")
 	ner_process = ner.execute(month)
 	npm_process = npm.execute(month, year)
 	fwc_process = fwc.execute(month, year)

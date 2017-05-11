@@ -16,8 +16,8 @@ array_kon_mati = ["tewas", "mati", "bunuh", "tinggal", "layang", "renggut", "tel
 
 array_kon_penderita = ["sakit", "derita", "kena", "rawat", "korban", "derita", "keritis", "tular", "jangkit", "idap", "alami"]
 
-month = {"jan":"Januari","feb":"Februari","mar":"Maret","apr":"April","may":"Mei","jun":"Juni","jul":"Juli","aug":"Agustus","sep":"September","oct":"Oktober","nop":"November","dec":"Desember"}
+month = {"jan":"Januari","feb":"Februari","mar":"Maret","apr":"April","may":"Mei","jun":"Juni","jul":"Juli","aug":"Agustus","sep":"September","oct":"Oktober","nov":"November","dec":"Desember"}
 
-month_index = {"Januari":"jan","Februari":"feb","Maret":"mar","April":"apr","Mei":"may","Juni":"jun","Juli":"jul","Agustus":"aug","September":"sep","Oktober":"oct","November":"nop","Desember":"dec"}
+month_index = {"Januari":"jan","Februari":"feb","Maret":"mar","April":"apr","Mei":"may","Juni":"jun","Juli":"jul","Agustus":"aug","September":"sep","Oktober":"oct","November":"nov","Desember":"dec"}
 
-month_num = ["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nop","dec"]
+month_num = ["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"]

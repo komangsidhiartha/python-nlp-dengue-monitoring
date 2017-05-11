@@ -463,29 +463,34 @@ class DBModel:
 		
 		return cursor
 
-	def get_history_incident_by_location(self, database, month, location):
+	def get_history_incident_by_location(self, database, month, year, location):
 		db = self.client[database]
 		# print "database :%s, month :%s, location :%s"%(database,month,location)
 		cursor = db[month].find({"$and":[{"LOC":location},{"district":"kabupaten"}]})
 		documents = {}
 
-		year = time.strftime("%y")
 		#dates = month.title()+" "+str(int(year)-1) //tahun 2016
-		dates = month.title()+" "+str(int(year)-2)
+		dates_month_year = month.title()+" "+str(int(year))
+		dates_month_year_half = month.title()+" "+str(int(year))[2:]
+
 		for data in cursor:
 			document = []
-			date = int(data["time"].replace(dates,""))
-			# print data
-			day = ""
-			day_str = str(date)
-			if len(day_str) == 1:
-				day = "0"+day_str
+			year_full = str(int(year))
+			year_half = year_full[2:]
+			str_date = ''
+			if len(data['time']) >= 8:
+				str_date = data["time"].replace(dates_month_year,"").replace(dates_month_year_half, "").replace(month.title(), "").replace(" ", "")
 			else:
-				day = day_str
+				str_date = data["time"].replace(month.title(), "").replace(" ", "")
+			print data['time'], str_date, month.title(), dates_month_year, dates_month_year_half
+			date = int(str_date)
+
+			if len(str_date) == 1:
+				str_date = "0"+str_date
 
 			url = list(set(data["url_duplicate"]))
 
-			tweet_url = self.get_tweet_from_date_and_url(month+"_ner", day, url)
+			tweet_url = self.get_tweet_from_date_and_url(month+"_"+year+"_ner", str_date, url)
 			
 			print tweet_url
 
@@ -522,6 +527,7 @@ class DBModel:
 		result  = {}
 		url = []
 		tweet = []
+		print database, collection
 		for link in arr_url :
 			temp_link = link
 			cursor = db[collection].find({"url":link})

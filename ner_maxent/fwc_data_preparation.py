@@ -22,6 +22,7 @@ def execute(month, year):
 
 	# get_month_of_year = dbmodel.get_all_collection(year)
 	# for month in get_month_of_year:
+	month = month.replace("_" + year, "")
 
 	documents = list(dbmodel.get_data_from_db_ner(ner_db, month))
 

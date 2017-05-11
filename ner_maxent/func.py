@@ -7,6 +7,8 @@ import operator
 class Func:
 	w = regx.w
 	def check_terbilang(self, terbilang):
+		terbilang = terbilang.replace("/", " / ")
+		terbilang = terbilang.replace("  ", " ")
 		arr_terbilang = terbilang.split(" ")
 		arr_angka = []
 		result = {}
@@ -78,6 +80,9 @@ class Func:
 				# jika label ada, atau pada saat proses pelatihan iis
 				words = data["sentence"].split()
 				imbuhan =arr_terbilang[index]
+				print "imbuhan", imbuhan
+				print "sentence", data["sentence"]
+				print "words", words
 				idx_imbuhan = words.index(imbuhan)
 				idx_str_or_numeric = idx_imbuhan-1
 				temp_str = words[idx_str_or_numeric]+" "+imbuhan

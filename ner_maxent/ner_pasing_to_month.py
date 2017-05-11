@@ -47,7 +47,7 @@ def execute(month, year):
 
 	db_insert_ner = "%s_ner"%year
 
-	collection_insert_ner = month
+	collection_insert_ner = month.replace("_" + year, "")
 	#+++++++++++++++++++++++++++++++++++++
 
 	#print date_month
@@ -78,13 +78,25 @@ def execute(month, year):
 				data["url_duplicate"] = arr_url
 				#=======================================================
 				time = data["time"]
+				print "time in data", time
 				date = time.split(" ")
-				date_in_int = int(date[0])
+				date_in_int = 0
+				result_month = month
+				if len(date[0]) == 3:
+					date_in_int = int(date[1])
+					result_month = date[0].title()
+				else:
+					date_in_int = int(date[0])
+					result_month = date[1].title()
 				#fill date in int
 				data["day"] = date_in_int
 				abbr_to_num = {name: num for num, name in enumerate(c.month_abbr) if num}
-				data["month"] = abbr_to_num[date[1].title()]
-				data["year"] = date[2]
+				data["month"] = abbr_to_num[result_month]
+
+				if len(date) == 3:
+					data["year"] = date[2]
+				else:
+					data['year'] = year
 				insert_document = dbmodel.bulk_insert(db_insert_ner, collection_insert_ner, data)
 				print "%s inserted to ner"%insert_document
 

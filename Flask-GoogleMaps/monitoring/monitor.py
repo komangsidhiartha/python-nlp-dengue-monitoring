@@ -11,7 +11,7 @@ from collections import OrderedDict
 import os
 import datetime
 
-dir_of_interest = "/Users/rpl/projects/python/monitoring-dbd/Program_NER/ner_maxent"
+dir_of_interest = "/Volumes/SECONDARY/kerja/ugm/monitoring-demam-berdarah/monitoring-dbd/ner_maxent"
 sys.path.append(dir_of_interest)
 
 import dbmodel as db
@@ -46,7 +46,7 @@ def create_app(configfile=None):
         tahun = get_year
 
         fwc_db = "%s_fwc"%tahun
-        months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nop', 'dec']
+        months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
         y_dropdown = [(now.year - i) for i in range(5, -1, -1) ]
         print months
         if tahun == '' or months == False :
@@ -73,7 +73,7 @@ def create_app(configfile=None):
 
         if "location" in location_form:
             locs = request.form["location"].lower()
-            title = "Persebaran Penyakit Demam Berdarah di "+locs.title()+" Pada Bulan "+dropdown.title()
+            title = "Persebaran Penyakit Demam Berdarah di "+locs.title()+" Pada Bulan "+dropdown.title() + " " + tahun
             dropdown = request.form["month_form"]
             for index, month in gaz_month.iteritems():
                 if month == dropdown:
@@ -85,16 +85,16 @@ def create_app(configfile=None):
             dynamic_month = gaz_month_ind[get_month]
             dropdown = gaz_month[dynamic_month]
             if get_ai == "tinggi":
-                title = "Persebaran Penyakit Demam Berdarah Resiko Tinggi di Bulan "+get_month
+                title = "Persebaran Penyakit Demam Berdarah Resiko Tinggi di Bulan "+get_month + " " + tahun
                 datas = dbmodel.get_location_by_ai_and_month(fwc_db,"tinggi",dynamic_month)
             elif get_ai == "sedang":
-                title = "Persebaran Penyakit Demam Berdarah Resiko Sedang di Bulan "+get_month
+                title = "Persebaran Penyakit Demam Berdarah Resiko Sedang di Bulan "+get_month + " " + tahun
                 datas = dbmodel.get_location_by_ai_and_month(fwc_db,"sedang",dynamic_month)
             else :
-                title = "Persebaran Penyakit Demam Berdarah Resiko Rendah di Bulan "+get_month
+                title = "Persebaran Penyakit Demam Berdarah Resiko Rendah di Bulan "+get_month + " " + tahun
                 datas = dbmodel.get_location_by_ai_and_month(fwc_db,"rendah",dynamic_month)
         else:
-            title = "Persebaran Penyakit Demam Berdarah di Negara Indonesia Pada Bulan "+dropdown.title()
+            title = "Persebaran Penyakit Demam Berdarah di Negara Indonesia Pada Bulan "+dropdown.title() + " " + tahun
             datas = dbmodel.top_location_of_month(fwc_db,dynamic_month)
 
         # creating a map in the view
@@ -157,18 +157,19 @@ def create_app(configfile=None):
             if len(data_locations)>=1:
                 if len(coordinate)==1 and str_temp_coordinate not in temp_uniqe_coordinate: 
                     mark.append(data_locations)
-                    data = dbmodel.get_history_incident_by_location(fwc_db, dynamic_month, location.lower())
+                    print dynamic_month, tahun, location.lower()
+                    data = dbmodel.get_history_incident_by_location(fwc_db, dynamic_month, tahun, location.lower())
                     # print data
                     history[location_element] = data
                 else:
                     if loc["populasi"].encode("utf8") != "" and str_temp_coordinate not in temp_uniqe_coordinate:
                        mark.append(data_locations) 
-                       data = dbmodel.get_history_incident_by_location(fwc_db, dynamic_month, location.lower())
+                       data = dbmodel.get_history_incident_by_location(fwc_db, dynamic_month, tahun, location.lower())
                        history[location_element] = data
 
                 temp_uniqe_coordinate.append(str_temp_coordinate)
 
-            # print history
+        print history
 
         graph_all["label_chart"] = label_graph 
         graph_all["data_chart"] = data_graph 
