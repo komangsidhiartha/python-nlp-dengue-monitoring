@@ -64,7 +64,7 @@ def execute(month):
 			data = document["data"]
 
 			for sentences in data :
-				sentence = sentences["text_tweet"]
+				sentence = sentences["text_tweet"].strip()
 				if sentence :
 					print sentences["id"]
 					ner = classify.training_ner(sentence.encode("utf8"), classifier)
